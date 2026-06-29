@@ -4,6 +4,10 @@ compatibility_flags = ["nodejs_compat"]
 
 pages_build_output_dir = "out"
 build_command = "npm run build"
+node_version = "22"
+
+[build]
+command = "npm run build"
 
 [vars]
 ENVIRONMENT = "production"
