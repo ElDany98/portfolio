@@ -1,0 +1,19 @@
+name = "portfolio"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+pages_build_output_dir = ".next"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portfolio"
+database_id = ""
+
+[vars]
+CONTACT_TO_EMAIL = ""
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.preview]
+vars = { ENVIRONMENT = "preview" }
