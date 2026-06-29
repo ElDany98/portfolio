@@ -16,9 +16,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-        env:
-          npm_config_ignore_platform: "true"
+      - run: npm install
       - run: npm run build
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
