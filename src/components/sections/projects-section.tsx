@@ -14,12 +14,22 @@ const statusLabels = {
   idea: "Idea",
 } as const;
 
+const statusPrefixes = {
+  production: "●",
+  development: "◉",
+  designed: "○",
+  idea: "○",
+} as const;
+
 export function ProjectsSection() {
   return (
     <section id="projects" className="py-24">
       <div className="container-page">
-        <h2 className="text-2xl font-bold mb-2">Proyectos</h2>
-        <p className="text-text-secondary mb-12 max-w-lg">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="font-mono text-xs text-success">$</span>
+          <h2 className="text-2xl font-bold">Proyectos</h2>
+        </div>
+        <p className="text-text-secondary mb-12 max-w-lg ml-4">
           Sistemas reales que he diseñado, desarrollado y desplegado.
         </p>
 
@@ -27,12 +37,12 @@ export function ProjectsSection() {
           {projects.map((project) => (
             <div
               key={project.name}
-              className="p-5 rounded-md border border-border bg-bg-secondary flex flex-col"
+              className="p-5 rounded-md border border-border bg-bg-secondary card-hover flex flex-col"
             >
               <div className="flex items-start justify-between mb-3">
                 <h3 className="font-semibold text-sm">{project.name}</h3>
-                <span className={`text-xs font-mono ${statusColors[project.status]}`}>
-                  {statusLabels[project.status]}
+                <span className={`font-mono text-xs ${statusColors[project.status]}`}>
+                  {statusPrefixes[project.status]} {statusLabels[project.status]}
                 </span>
               </div>
 

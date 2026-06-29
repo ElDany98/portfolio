@@ -12,8 +12,13 @@ export function Narrative() {
       <div className="container-page">
         <div className="section-divider" />
 
+        <div className="flex items-center gap-2 mb-12">
+          <span className="font-mono text-xs text-success">$</span>
+          <h2 className="text-2xl font-bold">Trayectoria</h2>
+        </div>
+
         <div className="relative">
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2 hidden md:block" />
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-action-primary/40 via-border to-border -translate-x-1/2 hidden md:block" />
 
           <div className="space-y-12 relative">
             {milestones.map((m, i) => (
@@ -29,8 +34,8 @@ export function Narrative() {
                   <p className="text-sm text-text-secondary mt-1">{m.description}</p>
                 </div>
 
-                <div className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full border border-border bg-bg-primary flex items-center justify-center">
-                  <span className="w-2 h-2 rounded-full bg-action-primary" />
+                <div className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full border-2 border-action-primary/30 bg-bg-primary flex items-center justify-center">
+                  <span className="w-2 h-2 rounded-full bg-action-primary animate-pulse" />
                 </div>
 
                 <div className="flex-1 hidden md:block" />

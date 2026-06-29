@@ -14,6 +14,7 @@
   --color-success: #00ff88;
   --color-warning: #f59e0b;
   --color-danger: #ff2244;
+  --color-cyan: #22d3ee;
   --color-border: #1e1e2e;
   --color-border-focus: #1a6aff;
 
@@ -34,17 +35,73 @@
   border-color: var(--color-border);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 136, 0.015) 2px,
+    rgba(0, 255, 136, 0.015) 4px
+  );
+  z-index: 9999;
 }
 
 ::selection {
-  background-color: rgba(26, 106, 255, 0.3);
+  background-color: rgba(0, 255, 136, 0.2);
   color: var(--color-text-primary);
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 106, 255, 0); }
+  50% { box-shadow: 0 0 0 2px rgba(26, 106, 255, 0.15); }
+}
+
+@keyframes scan {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @utility container-page {
@@ -56,8 +113,9 @@ body {
 }
 
 @utility glass-nav {
-  background-color: rgba(12, 12, 18, 0.8);
-  backdrop-filter: blur(12px);
+  background-color: rgba(12, 12, 18, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -67,4 +125,35 @@ body {
   width: 100%;
   margin-top: 4rem;
   margin-bottom: 4rem;
+}
+
+@utility terminal-prompt {
+  &::before {
+    content: "$ ";
+    color: var(--color-success);
+    font-family: var(--font-mono);
+  }
+}
+
+@utility card-hover {
+  transition: all var(--duration-normal) var(--ease-out);
+  &:hover {
+    border-color: rgba(26, 106, 255, 0.3);
+    box-shadow: 0 0 0 1px rgba(26, 106, 255, 0.1);
+  }
+}
+
+@utility text-glow {
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+@utility animate-fade-in {
+  animation: fade-in-up 0.6s var(--ease-out) forwards;
+  opacity: 0;
+}
+
+@utility animate-glitch {
+  &:hover {
+    animation: glitch 0.3s var(--ease-out);
+  }
 }

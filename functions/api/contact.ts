@@ -30,7 +30,7 @@ export const onRequest: PagesFunction<{ DATABASE_URL: string }> = async (context
     }
 
     const sql = neon(env.DATABASE_URL);
-    const result = await sql.query(
+    const result = await sql(
       "INSERT INTO portfolio.contact_messages (name, email, subject, message, source) VALUES ($1, $2, $3, $4, 'portfolio') RETURNING id",
       [body.name, body.email, body.subject || null, body.message]
     );
