@@ -15,7 +15,7 @@
   --color-warning: #f59e0b;
   --color-danger: #ff2244;
   --color-cyan: #22d3ee;
-  --color-border: #1e1e2e;
+  --color-border: #252535;
   --color-border-focus: #1a6aff;
 
   --font-sans: Inter, system-ui, sans-serif;
@@ -136,10 +136,13 @@ body::after {
 }
 
 @utility card-hover {
-  transition: all var(--duration-normal) var(--ease-out);
+  transition-property: border-color, box-shadow, transform;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--ease-out);
   &:hover {
-    border-color: rgba(26, 106, 255, 0.3);
-    box-shadow: 0 0 0 1px rgba(26, 106, 255, 0.1);
+    border-color: rgba(26, 106, 255, 0.28);
+    box-shadow: 0 0 0 1px rgba(26, 106, 255, 0.08), 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
   }
 }
 
@@ -155,5 +158,26 @@ body::after {
 @utility animate-glitch {
   &:hover {
     animation: glitch 0.3s var(--ease-out);
+  }
+}
+
+@utility animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@utility section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  @media (min-width: 768px) {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
