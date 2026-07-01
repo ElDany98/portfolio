@@ -5,13 +5,13 @@ import { Cloud, Network, Shield, Server, Radio, GitMerge, Wrench, type LucideIco
 import { skillCategories } from "@/lib/data/skills";
 
 const iconMap: Record<string, LucideIcon> = {
-  "Network Engineering · Cisco": Network,
-  "Network Operations · Support": Wrench,
   "Cybersecurity · Blue Team": Shield,
-  "Systems Administration · Linux": Server,
-  "Observability · NOC": Radio,
   "Automation · DevNet": GitMerge,
   "Cloud & AI Foundations": Cloud,
+  "Observability · NOC": Radio,
+  "Network Engineering · Cisco": Network,
+  "Network Operations · Support": Wrench,
+  "Systems Administration · Linux": Server,
 };
 
 export function SkillsGrid() {

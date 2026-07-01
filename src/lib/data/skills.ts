@@ -7,34 +7,10 @@ export interface Skill {
 
 export const skillCategories: Skill[] = [
   {
-    name: "Network Engineering · Cisco",
-    icon: "🌐",
-    level: 5,
-    technologies: ["CCNA SRWE", "Switching", "Routing", "VLANs", "Trunks", "Inter-VLAN", "Wireless LAN", "STP/RSTP", "LAN/WAN"],
-  },
-  {
-    name: "Network Operations · Support",
-    icon: "🛠️",
-    level: 5,
-    technologies: ["Troubleshooting L2/L3", "Cisco IOS", "IP Addressing", "DNS/DHCP", "Meraki", "Ruijie", "Documentation", "Escalation", "Incident Closure"],
-  },
-  {
     name: "Cybersecurity · Blue Team",
     icon: "🔒",
     level: 4,
     technologies: ["CIA Triad", "Hardening", "Network Security", "Access Control", "Segmentation", "Firewalls", "Threat Detection", "Incident Response", "Check Point"],
-  },
-  {
-    name: "Systems Administration · Linux",
-    icon: "⚙️",
-    level: 4,
-    technologies: ["Linux Essentials", "Shell", "Users & Permissions", "File Systems", "Services", "Windows Server", "Active Directory", "Hyper-V", "VMware"],
-  },
-  {
-    name: "Observability · NOC",
-    icon: "📡",
-    level: 4,
-    technologies: ["Zabbix", "CloudWatch", "Metrics", "Logs", "Alerting", "Dashboards", "Availability", "Capacity Signals", "Operational Evidence"],
   },
   {
     name: "Automation · DevNet",
@@ -47,5 +23,29 @@ export const skillCategories: Skill[] = [
     icon: "☁️",
     level: 3,
     technologies: ["AWS", "VPC", "IAM", "Lambda", "CloudWatch", "Edge Serverless", "AI Fundamentals", "IBM SkillsBuild", "Responsible AI"],
+  },
+  {
+    name: "Observability · NOC",
+    icon: "📡",
+    level: 4,
+    technologies: ["Zabbix", "CloudWatch", "Metrics", "Logs", "Alerting", "Dashboards", "Availability", "Capacity Signals", "Operational Evidence"],
+  },
+  {
+    name: "Network Engineering · Cisco",
+    icon: "🌐",
+    level: 5,
+    technologies: ["CCNA SRWE", "Switching", "Routing", "VLANs", "Trunks", "Inter-VLAN", "Wireless LAN", "STP/RSTP", "LAN/WAN"],
+  },
+  {
+    name: "Network Operations · Support",
+    icon: "🛠️",
+    level: 5,
+    technologies: ["Troubleshooting L2/L3", "Cisco IOS", "IP Addressing", "DNS/DHCP", "Meraki", "Ruijie", "Documentation", "Escalation", "Incident Closure"],
+  },
+  {
+    name: "Systems Administration · Linux",
+    icon: "⚙️",
+    level: 4,
+    technologies: ["Linux Essentials", "Shell", "Users & Permissions", "File Systems", "Services", "Windows Server", "Active Directory", "Hyper-V", "VMware"],
   },
 ];
