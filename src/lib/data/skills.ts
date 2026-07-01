@@ -7,39 +7,45 @@ export interface Skill {
 
 export const skillCategories: Skill[] = [
   {
-    name: "Cloud Architecture · AWS",
-    icon: "☁️",
-    level: 4,
-    technologies: ["EC2", "S3", "VPC", "IAM", "RDS", "Route 53", "CloudWatch", "ELB", "Lambda", "Bedrock"],
-  },
-  {
-    name: "Network Engineering",
+    name: "Network Engineering · Cisco",
     icon: "🌐",
     level: 5,
-    technologies: ["Cisco CCNA", "Meraki", "Ruijie", "VLANs", "BGP", "OSPF", "LAN/WAN", "Wireless", "Segmentación"],
+    technologies: ["CCNA SRWE", "Switching", "Routing", "VLANs", "Trunks", "Inter-VLAN", "Wireless LAN", "STP/RSTP", "LAN/WAN"],
   },
   {
-    name: "Ciberseguridad · Blue Team",
+    name: "Network Operations · Support",
+    icon: "🛠️",
+    level: 5,
+    technologies: ["Troubleshooting L2/L3", "Cisco IOS", "IP Addressing", "DNS/DHCP", "Meraki", "Ruijie", "Documentation", "Escalation", "Incident Closure"],
+  },
+  {
+    name: "Cybersecurity · Blue Team",
     icon: "🔒",
     level: 4,
-    technologies: ["Hardening", "Seguridad Perimetral", "Control de Acceso", "ISO 27001", "PCI DSS", "Zero Trust", "Check Point"],
+    technologies: ["CIA Triad", "Hardening", "Network Security", "Access Control", "Segmentation", "Firewalls", "Threat Detection", "Incident Response", "Check Point"],
   },
   {
-    name: "Systems Administration",
+    name: "Systems Administration · Linux",
     icon: "⚙️",
-    level: 5,
-    technologies: ["Linux", "Windows Server", "Hyper-V", "Active Directory", "HA Failover", "VMware", "Docker"],
+    level: 4,
+    technologies: ["Linux Essentials", "Shell", "Users & Permissions", "File Systems", "Services", "Windows Server", "Active Directory", "Hyper-V", "VMware"],
   },
   {
-    name: "Monitoreo & Observabilidad",
+    name: "Observability · NOC",
     icon: "📡",
     level: 4,
-    technologies: ["Zabbix", "CloudWatch", "Alertamiento", "Métricas", "Dashboards", "Disponibilidad"],
+    technologies: ["Zabbix", "CloudWatch", "Metrics", "Logs", "Alerting", "Dashboards", "Availability", "Capacity Signals", "Operational Evidence"],
   },
   {
-    name: "Automatización Operativa",
+    name: "Automation · DevNet",
     icon: "🤖",
+    level: 4,
+    technologies: ["REST APIs", "JSON", "Python", "Git", "CI/CD", "Infrastructure APIs", "Meraki API", "GitHub Actions", "Cloudflare Workers"],
+  },
+  {
+    name: "Cloud & AI Foundations",
+    icon: "☁️",
     level: 3,
-    technologies: ["IaC", "CI/CD", "DevOps", "AWS", "Cloudflare Workers", "GitHub Actions"],
+    technologies: ["AWS", "VPC", "IAM", "Lambda", "CloudWatch", "Edge Serverless", "AI Fundamentals", "IBM SkillsBuild", "Responsible AI"],
   },
 ];

@@ -1,16 +1,17 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { Cloud, Network, Shield, Server, Radio, GitMerge, type LucideIcon } from "lucide-react";
+import { Cloud, Network, Shield, Server, Radio, GitMerge, Wrench, type LucideIcon } from "lucide-react";
 import { skillCategories } from "@/lib/data/skills";
 
 const iconMap: Record<string, LucideIcon> = {
-  "Cloud Architecture · AWS": Cloud,
-  "Network Engineering": Network,
-  "Ciberseguridad · Blue Team": Shield,
-  "Systems Administration": Server,
-  "Monitoreo & Observabilidad": Radio,
-  "Automatización Operativa": GitMerge,
+  "Network Engineering · Cisco": Network,
+  "Network Operations · Support": Wrench,
+  "Cybersecurity · Blue Team": Shield,
+  "Systems Administration · Linux": Server,
+  "Observability · NOC": Radio,
+  "Automation · DevNet": GitMerge,
+  "Cloud & AI Foundations": Cloud,
 };
 
 export function SkillsGrid() {
