@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:#07070c; }
+  * { box-sizing: border-box; }
+  ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); color:#fff; }
+  input, textarea, button { font-family: inherit; }
+  input:focus, textarea:focus { outline: none; }
+  @keyframes dm-grid { from { background-position: 0 0, 0 0; } to { background-position: 48px 48px, 48px 48px; } }
+  @keyframes dm-glowA { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6vw,4vh) scale(1.15); } }
+  @keyframes dm-glowB { 0%,100% { transform: translate(0,0) scale(1.1); } 50% { transform: translate(-5vw,-4vh) scale(0.95); } }
+  @keyframes dm-scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+  @keyframes dm-blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+  @keyframes dm-up { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes dm-spin { to { transform: rotate(360deg); } }
+  @keyframes dm-ping { 0% { transform: scale(1); opacity:.7; } 75%,100% { transform: scale(2.4); opacity:0; } }
+  @keyframes dm-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes dm-shine { to { background-position: 200% center; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; } }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="--bg:#07070c; --bg2:#0d0e16; --bg3:#15161f; --panel:rgba(20,22,33,.55); --text:#edeef4; --text2:#989ab0; --text3:#5b5d74; --border:#20222f; --border2:#2b2e40; --accent:#ff3b52; --accent2:#2f7bff; --glowA:#7a1226; --glowB:#123a7c; position:relative; min-height:100vh; background:var(--bg); color:var(--text); font-family:Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;">
+
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="300" fill="#06070b"/>
+      <line x1="120" y1="110" x2="200" y2="150" stroke="#ff3b52" stroke-width="2" opacity="0.5"/>
+      <line x1="200" y1="150" x2="290" y2="120" stroke="#2f7bff" stroke-width="2" opacity="0.5"/>
+      <line x1="200" y1="150" x2="170" y2="210" stroke="#2f7bff" stroke-width="2" opacity="0.4"/>
+      <circle cx="120" cy="110" r="5" fill="#ff3b52"/>
+      <circle cx="290" cy="120" r="5" fill="#2f7bff"/>
+      <circle cx="170" cy="210" r="4" fill="#2f7bff"/>
+      <circle cx="200" cy="150" r="7" fill="#ff3b52"/>
+      <text x="200" y="160" font-family="monospace" font-size="34" font-weight="700" fill="#eff1f6" text-anchor="middle">&gt;_ DM</text>
+    </svg>
+  </template>
+
+  <!-- ===== ANIMATED BACKGROUND ===== -->
+  <div aria-hidden="true" style="position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;">
+    <div style="position:absolute; inset:-2px; background-image: linear-gradient(color-mix(in srgb, var(--accent) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent) 6%, transparent) 1px, transparent 1px); background-size:48px 48px; animation: dm-grid 12s linear infinite; opacity:.28; mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 80%);"></div>
+    <canvas ref="{{ bgCanvasRef }}" style="position:absolute; inset:0; width:100%; height:100%; opacity:.9;"></canvas>
+    <div style="position:absolute; top:-20vh; left:-10vw; width:60vw; height:60vw; border-radius:50%; background: radial-gradient(circle, color-mix(in srgb, var(--glowA) 55%, transparent), transparent 65%); filter: blur(40px); animation: dm-glowA 18s ease-in-out infinite;"></div>
+    <div style="position:absolute; bottom:-25vh; right:-12vw; width:55vw; height:55vw; border-radius:50%; background: radial-gradient(circle, color-mix(in srgb, var(--glowB) 50%, transparent), transparent 65%); filter: blur(40px); animation: dm-glowB 22s ease-in-out infinite;"></div>
+    <div style="position:absolute; left:0; right:0; height:140px; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 5%, transparent), transparent); animation: dm-scan 9s linear infinite; opacity:.6;"></div>
+    <div style="position:absolute; inset:0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.14) 3px, rgba(0,0,0,.14) 4px); opacity:.18;"></div>
+    <div style="position:absolute; inset:0; background: radial-gradient(ellipse 120% 80% at 50% 40%, transparent 55%, color-mix(in srgb, var(--bg) 70%, transparent) 100%);"></div>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <nav style="position:sticky; top:0; z-index:50; backdrop-filter:blur(18px); background:color-mix(in srgb, var(--bg) 82%, transparent); border-bottom:1px solid var(--border);">
+    <div style="max-width:1240px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
+      <a href="#top" style="display:flex; align-items:center; gap:9px; text-decoration:none;">
+        <span style="font:700 15px/1 'JetBrains Mono',monospace; color:var(--accent);">&gt;_</span>
+        <span style="display:flex; flex-direction:column; line-height:1.1;">
+          <span style="font:700 15px/1 'JetBrains Mono',monospace; letter-spacing:1px; color:var(--text);">El Dany</span>
+          <span style="font:500 9.5px/1 'JetBrains Mono',monospace; letter-spacing:1.5px; color:var(--text3); text-transform:uppercase; margin-top:3px;">Portfolio Profesional</span>
+        </span>
+      </a>
+      <div style="display:flex; align-items:center; gap:30px;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+          <a href="{{ item.href }}" style="text-decoration:none; font:500 14px/1 Inter,sans-serif; color:var(--text2); transition:color .2s;" style-hover="color:var(--text);">{{ item.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; border:1px solid var(--border2); border-radius:8px; overflow:hidden;">
+          <button onClick="{{ setThemeC }}" title="Red / Blue Team" style="{{ themeCStyle }}">◑</button>
+          <button onClick="{{ setThemeD }}" title="Classic Terminal" style="{{ themeDStyle }}">▮</button>
+        </div>
+        <button onClick="{{ toggleLang }}" style="border:1px solid var(--border2); background:color-mix(in srgb,var(--bg3) 70%,transparent); color:var(--text); font:600 12px/1 'JetBrains Mono',monospace; padding:8px 11px; border-radius:8px; cursor:pointer; letter-spacing:1px;">{{ langLabel }}</button>
+        <a href="assets/CV-Daniel-Meza.pdf" download="CV-Daniel-Meza.pdf" style="display:inline-flex; align-items:center; gap:7px; border:1px solid color-mix(in srgb, var(--accent) 45%, transparent); background:color-mix(in srgb, var(--accent) 12%, transparent); color:var(--accent); font:700 12px/1 'JetBrains Mono',monospace; padding:9px 14px; border-radius:8px; text-decoration:none; letter-spacing:.5px; transition:background .2s;" style-hover="background:color-mix(in srgb, var(--accent) 20%, transparent);">↓ {{ t.navCv }}</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="top" style="position:relative; z-index:1; max-width:1240px; margin:0 auto; padding:0 32px;">
+
+    <!-- ===== HERO ===== -->
+    <section style="min-height:calc(100vh - 60px); display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:56px; align-items:center; padding:60px 0 80px;">
+      <div>
+        <div style="display:inline-flex; align-items:center; gap:9px; padding:6px 13px; border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); background:color-mix(in srgb, var(--accent) 8%, transparent); border-radius:100px; font:600 12px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:26px;">
+          <span style="position:relative; width:7px; height:7px;"><span style="position:absolute; inset:0; border-radius:50%; background:var(--accent); animation:dm-ping 2s ease-out infinite;"></span><span style="position:absolute; inset:0; border-radius:50%; background:var(--accent);"></span></span>
+          {{ t.avail }}
+        </div>
+
+        <h1 style="margin:0; font:800 clamp(56px,8vw,104px)/0.92 'Space Grotesk',Inter,sans-serif; letter-spacing:-.03em; color:var(--text);">Daniel<br><span style="background:linear-gradient(100deg, var(--accent), var(--accent2) 60%, var(--accent)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation: dm-shine 6s linear infinite;">Meza</span></h1>
+
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:18px;">
+          <span style="font:600 15px/1 'JetBrains Mono',monospace; color:var(--accent);">@ElDany</span>
+          <span style="display:inline-flex; align-items:center; padding:5px 11px; border:1px solid color-mix(in srgb, var(--accent2) 40%, transparent); border-radius:100px; background:color-mix(in srgb, var(--accent2) 10%, transparent); font:600 12.5px/1 'JetBrains Mono',monospace; color:var(--accent2); letter-spacing:.3px;">#ImitforIT</span>
+          <span style="width:1px; height:18px; background:var(--border2);"></span>
+          <sc-for list="{{ heroSocials }}" as="s" hint-placeholder-count="3">
+            <a href="{{ s.href }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border:1px solid var(--border); border-radius:8px; text-decoration:none; font:600 12px/1 'JetBrains Mono',monospace; color:var(--text2); background:color-mix(in srgb, var(--bg2) 50%, transparent); transition:border-color .2s, color .2s;" style-hover="border-color:color-mix(in srgb, var(--accent) 50%, transparent); color:var(--text);">{{ s.label }}</a>
+          </sc-for>
+        </div>
+
+        <p style="margin:22px 0 0; font:600 clamp(19px,2.2vw,26px)/1.3 Inter,sans-serif; color:var(--text); max-width:32ch;">{{ t.role }}</p>
+        <p style="margin:14px 0 0; font:400 15px/1.65 Inter,sans-serif; color:var(--text2); max-width:46ch;">{{ t.lede }}</p>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
+          <a href="assets/CV-Daniel-Meza.pdf" download="CV-Daniel-Meza.pdf" style="display:inline-flex; align-items:center; gap:9px; padding:13px 22px; border-radius:11px; text-decoration:none; background:linear-gradient(100deg, var(--accent), var(--accent2)); color:#fff; font:700 14px/1 Inter,sans-serif; box-shadow:0 14px 34px -14px color-mix(in srgb, var(--accent) 75%, transparent); transition:transform .2s, box-shadow .2s;" style-hover="transform:translateY(-2px); box-shadow:0 20px 44px -14px color-mix(in srgb, var(--accent) 85%, transparent);"><span style="font:700 15px/1 'JetBrains Mono',monospace;">↓</span> {{ t.cvDownload }}</a>
+          <a href="assets/CV-Daniel-Meza.pdf" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:9px; padding:13px 20px; border-radius:11px; text-decoration:none; border:1px solid var(--border2); background:color-mix(in srgb, var(--bg2) 55%, transparent); color:var(--text); font:600 14px/1 Inter,sans-serif; transition:border-color .2s, color .2s;" style-hover="border-color:color-mix(in srgb, var(--accent) 50%, transparent);"><span style="font:600 15px/1 'JetBrains Mono',monospace; color:var(--accent);">⎙</span> {{ t.cvView }}</a>
+        </div>
+
+        <!-- Playable terminal -->
+        <div style="margin-top:30px; border:1px solid var(--border2); border-radius:12px; background:color-mix(in srgb, var(--bg2) 85%, transparent); backdrop-filter:blur(10px); box-shadow:0 24px 60px -30px rgba(0,0,0,.8); overflow:hidden; max-width:560px;">
+          <div style="display:flex; align-items:center; gap:7px; padding:10px 14px; border-bottom:1px solid var(--border); background:color-mix(in srgb, var(--bg3) 60%, transparent);">
+            <span style="width:11px; height:11px; border-radius:50%; background:#ff5f57;"></span>
+            <span style="width:11px; height:11px; border-radius:50%; background:#febc2e;"></span>
+            <span style="width:11px; height:11px; border-radius:50%; background:#28c840;"></span>
+            <span style="margin-left:8px; font:500 12px/1 'JetBrains Mono',monospace; color:var(--text3);">daniel@portfolio: ~</span>
+          </div>
+          <div onClick="{{ focusInput }}" style="padding:16px 16px 14px; font:400 13px/1.7 'JetBrains Mono',monospace; min-height:170px; max-height:230px; overflow-y:auto; cursor:text;">
+            <sc-for list="{{ bootLines }}" as="ln" hint-placeholder-count="6">
+              <div style="white-space:pre-wrap; word-break:break-word;"><span style="color:var(--accent);">{{ ln.prefix }}</span><span style="{{ ln.style }}">{{ ln.text }}</span></div>
+            </sc-for>
+            <sc-for list="{{ history }}" as="h" hint-placeholder-count="0">
+              <div style="white-space:pre-wrap; word-break:break-word; {{ h.wrap }}"><span style="color:var(--accent);">{{ h.prefix }}</span><span style="{{ h.style }}">{{ h.text }}</span></div>
+            </sc-for>
+            <sc-if value="{{ bootDone }}" hint-placeholder-val="{{ false }}">
+              <form onSubmit="{{ onSubmit }}" style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                <span style="color:var(--accent); flex:none;">$</span>
+                <input ref="{{ inputRef }}" value="{{ input }}" onInput="{{ onInput }}" spellcheck="false" autocomplete="off" placeholder="{{ t.termHint }}" style="flex:1; min-width:0; background:transparent; border:none; color:var(--text); font:400 13px/1.7 'JetBrains Mono',monospace; padding:0;" />
+                <span style="width:8px; height:15px; background:var(--accent); animation:dm-blink 1s step-end infinite; flex:none;"></span>
+              </form>
+            </sc-if>
+          </div>
+        </div>
+
+        <!-- stats -->
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:26px; max-width:560px;">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:10px; padding:13px 14px; background:color-mix(in srgb, var(--bg2) 55%, transparent);">
+              <div style="font:800 22px/1 'Space Grotesk',sans-serif; color:var(--accent);">{{ s.v }}</div>
+              <div style="font:400 11px/1.3 Inter,sans-serif; color:var(--text3); margin-top:5px;">{{ s.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Portrait -->
+      <div>
+        <div style="position:relative;">
+          <div style="position:absolute; inset:-8% -4% -4%; background:radial-gradient(circle at 50% 35%, color-mix(in srgb,var(--accent) 30%,transparent), transparent 65%); filter:blur(30px);"></div>
+          <div style="position:relative; border:1px solid var(--border2); border-radius:18px; overflow:hidden; background:linear-gradient(160deg, var(--bg2), var(--bg)); box-shadow:0 40px 90px -40px rgba(0,0,0,.9);">
+            <div style="display:flex; align-items:center; gap:7px; padding:11px 15px; border-bottom:1px solid var(--border); background:color-mix(in srgb, var(--bg3) 55%, transparent);">
+              <span style="width:10px; height:10px; border-radius:50%; background:#ff5f57;"></span>
+              <span style="width:10px; height:10px; border-radius:50%; background:#febc2e;"></span>
+              <span style="width:10px; height:10px; border-radius:50%; background:#28c840;"></span>
+              <span style="margin-left:6px; font:500 11.5px/1 'JetBrains Mono',monospace; color:var(--text3);">~/daniel-meza.png</span>
+            </div>
+            <div style="position:relative; height:440px; background-image: linear-gradient(color-mix(in srgb,var(--accent) 7%,transparent) 1px,transparent 1px), linear-gradient(90deg,color-mix(in srgb,var(--accent) 7%,transparent) 1px,transparent 1px); background-size:26px 26px; overflow:hidden;">
+              <div style="position:absolute; left:50%; bottom:-2%; transform:translateX(-50%); width:112%; height:104%; background:radial-gradient(ellipse 42% 34% at 50% 30%, color-mix(in srgb,var(--accent2) 34%,transparent), transparent 70%);"></div>
+              <img src="assets/profile.png" alt="Daniel Meza" style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); height:100%; width:auto; object-fit:contain; filter:drop-shadow(0 18px 40px rgba(0,0,0,.6));" />
+              <div style="position:absolute; left:14px; right:14px; bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; border:1px solid var(--border2); border-radius:11px; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(10px);">
+                <div>
+                  <div style="font:600 13.5px/1.2 Inter,sans-serif; color:var(--text);">Daniel Meza</div>
+                  <div style="font:500 11px/1.2 'JetBrains Mono',monospace; color:var(--accent); margin-top:3px;">{{ t.roleShort }}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px; font:500 11px/1 'JetBrains Mono',monospace; color:var(--text2);"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);"></span>online</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:14px; padding:11px 15px; border:1px solid var(--border); border-radius:11px; background:color-mix(in srgb, var(--bg2) 55%, transparent); font:500 12px/1.4 'JetBrains Mono',monospace; color:var(--text2);">
+            <span style="color:var(--accent2);">◆</span> pipeline: <span style="color:var(--text)">design</span> → <span style="color:var(--text)">build</span> → <span style="color:var(--text)">secure</span> → <span style="color:var(--text)">observe</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" style="padding:90px 0; border-top:1px solid var(--border);">
+      <div style="margin-bottom:40px;">
+        <div style="font:600 13px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:12px;">$ ./inspect-stack</div>
+        <h2 style="margin:0; font:700 clamp(30px,4vw,44px)/1.05 'Space Grotesk',sans-serif; letter-spacing:-.02em; color:var(--text);">{{ t.skillsTitle }}</h2>
+        <p style="margin:12px 0 0; font:400 15px/1.6 Inter,sans-serif; color:var(--text2); max-width:60ch;">{{ t.skillsSub }}</p>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:9px; margin-bottom:30px;">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="8">
+          <button onClick="{{ f.onClick }}" style="{{ f.style }}"><span style="opacity:.7; margin-right:6px;">{{ f.code }}</span>{{ f.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:20px;">
+        <sc-for list="{{ skills }}" as="s" hint-placeholder-count="6">
+          <div style="border:1px solid var(--border); border-radius:15px; padding:24px; background:var(--panel); backdrop-filter:blur(10px); transition:border-color .25s, transform .25s, box-shadow .25s;" style-hover="border-color:color-mix(in srgb,var(--accent) 45%,transparent); transform:translateY(-3px); box-shadow:0 20px 50px -30px color-mix(in srgb,var(--accent) 60%,transparent);">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;">
+              <div style="display:flex; align-items:center; gap:11px;">
+                <span style="display:inline-flex; align-items:center; justify-content:center; min-width:44px; height:26px; padding:0 8px; border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); border-radius:7px; background:color-mix(in srgb,var(--accent) 10%,transparent); font:700 11px/1 'JetBrains Mono',monospace; letter-spacing:1px; color:var(--accent);">{{ s.code }}</span>
+                <h3 style="margin:0; font:600 16px/1.2 Inter,sans-serif; color:var(--text);">{{ s.name }}</h3>
+              </div>
+            </div>
+            <div style="height:5px; border-radius:4px; background:color-mix(in srgb,var(--bg3) 90%,transparent); overflow:hidden; margin-bottom:18px;">
+              <div style="height:100%; border-radius:4px; background:linear-gradient(90deg,var(--accent),var(--accent2)); width: {{ s.levelPct }};"></div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:18px;">
+              <sc-for list="{{ s.technologies }}" as="tech" hint-placeholder-count="6">
+                <span style="padding:4px 9px; border:1px solid var(--border); border-radius:6px; font:500 11.5px/1.3 'JetBrains Mono',monospace; color:var(--text2); background:color-mix(in srgb,var(--bg3) 55%,transparent);">{{ tech }}</span>
+              </sc-for>
+            </div>
+            <div style="border-top:1px solid var(--border); padding-top:14px;">
+              <div style="font:600 10.5px/1 'JetBrains Mono',monospace; letter-spacing:1.5px; color:var(--text3); margin-bottom:10px;">{{ t.credLabel }}</div>
+              <div style="display:flex; flex-wrap:wrap; gap:7px;">
+                <sc-for list="{{ s.certifications }}" as="c" hint-placeholder-count="2">
+                  <span style="padding:4px 9px; border:1px solid color-mix(in srgb,var(--accent) 30%,transparent); border-radius:6px; font:500 11.5px/1.3 'JetBrains Mono',monospace; color:var(--accent); background:color-mix(in srgb,var(--accent) 7%,transparent);">{{ c }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- ===== BADGES ===== -->
+    <section id="badges" style="padding:90px 0; border-top:1px solid var(--border);">
+      <div style="margin-bottom:40px;">
+        <div style="font:600 13px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:12px;">$ ./verify-badges</div>
+        <h2 style="margin:0; font:700 clamp(30px,4vw,44px)/1.05 'Space Grotesk',sans-serif; letter-spacing:-.02em; color:var(--text);">{{ t.badgesTitle }}</h2>
+        <p style="margin:12px 0 0; font:400 15px/1.6 Inter,sans-serif; color:var(--text2); max-width:60ch;">{{ t.badgesSub }}</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px;">
+        <sc-for list="{{ certsVisible }}" as="b" hint-placeholder-count="6">
+          <a href="{{ b.url }}" target="_blank" rel="noopener" style="display:block; text-decoration:none; border:1px solid var(--border); border-radius:15px; padding:26px 22px; background:var(--panel); backdrop-filter:blur(10px); text-align:center; transition:border-color .25s, transform .25s, box-shadow .25s;" style-hover="border-color:color-mix(in srgb,var(--accent) 45%,transparent); transform:translateY(-4px); box-shadow:0 24px 55px -30px color-mix(in srgb,var(--accent2) 70%,transparent);">
+            <div style="height:104px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+              <img src="{{ b.imageUrl }}" alt="{{ b.name }}" loading="lazy" style="max-height:104px; max-width:104px; object-fit:contain; filter:drop-shadow(0 8px 20px rgba(0,0,0,.4));" />
+            </div>
+            <div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.5px; color:var(--text3); margin-bottom:8px;">{{ b.issuer }}</div>
+            <div style="font:600 14px/1.35 Inter,sans-serif; color:var(--text); min-height:38px; display:flex; align-items:center; justify-content:center;">{{ b.name }}</div>
+            <div style="display:inline-flex; align-items:center; gap:7px; margin-top:12px; font:500 11.5px/1 'JetBrains Mono',monospace; color:var(--accent);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span>{{ b.year }} · {{ t.verify }}</div>
+          </a>
+        </sc-for>
+      </div>
+      <div style="display:flex; justify-content:center; margin-top:34px;">
+        <button onClick="{{ toggleBadges }}" style="display:inline-flex; align-items:center; gap:9px; padding:12px 22px; border:1px solid var(--border2); border-radius:10px; background:color-mix(in srgb,var(--bg2) 60%,transparent); color:var(--text); font:600 13px/1 'JetBrains Mono',monospace; cursor:pointer; transition:border-color .2s;" style-hover="border-color:color-mix(in srgb,var(--accent) 50%,transparent);">{{ badgesBtnLabel }}</button>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" style="padding:90px 0; border-top:1px solid var(--border);">
+      <div style="margin-bottom:44px;">
+        <div style="font:600 13px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:12px;">$ ./git-log --career</div>
+        <h2 style="margin:0; font:700 clamp(30px,4vw,44px)/1.05 'Space Grotesk',sans-serif; letter-spacing:-.02em; color:var(--text);">{{ t.expTitle }}</h2>
+        <p style="margin:12px 0 0; font:400 15px/1.6 Inter,sans-serif; color:var(--text2);">{{ t.expSub }}</p>
+      </div>
+      <div style="position:relative; padding-left:34px;">
+        <div style="position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:linear-gradient(to bottom, var(--accent), var(--accent2), transparent);"></div>
+        <sc-for list="{{ experiences }}" as="e" hint-placeholder-count="5">
+          <div style="position:relative; margin-bottom:26px;">
+            <div style="position:absolute; left:-33px; top:5px; width:16px; height:16px; border-radius:50%; border:2px solid {{ e.dotBorder }}; background:var(--bg); display:flex; align-items:center; justify-content:center;"><span style="width:6px; height:6px; border-radius:50%; background:{{ e.dotColor }};"></span></div>
+            <div style="border:1px solid var(--border); border-radius:14px; padding:22px 24px; background:var(--panel); backdrop-filter:blur(8px); transition:border-color .25s, transform .25s;" style-hover="border-color:color-mix(in srgb,var(--accent) 35%,transparent); transform:translateX(3px);">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font:600 17px/1.25 Inter,sans-serif; color:var(--text);">{{ e.title }}</h3>
+                    <sc-if value="{{ e.current }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:100px; background:color-mix(in srgb,var(--accent) 12%,transparent); border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); font:600 10.5px/1 'JetBrains Mono',monospace; color:var(--accent);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dm-ping 2s infinite;"></span>{{ t.current }}</span></sc-if>
+                  </div>
+                  <div style="font:500 13.5px/1.3 Inter,sans-serif; color:var(--accent2); margin-top:6px;">{{ e.company }}</div>
+                </div>
+                <div style="font:500 12px/1 'JetBrains Mono',monospace; color:var(--text3); white-space:nowrap;">{{ e.period }}</div>
+              </div>
+              <p style="margin:14px 0 0; font:400 14px/1.6 Inter,sans-serif; color:var(--text2);">{{ e.description }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" style="padding:90px 0; border-top:1px solid var(--border);">
+      <div style="margin-bottom:40px;">
+        <div style="font:600 13px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:12px;">$ ls ~/projects</div>
+        <h2 style="margin:0; font:700 clamp(30px,4vw,44px)/1.05 'Space Grotesk',sans-serif; letter-spacing:-.02em; color:var(--text);">{{ t.projTitle }}</h2>
+        <p style="margin:12px 0 0; font:400 15px/1.6 Inter,sans-serif; color:var(--text2); max-width:60ch;">{{ t.projSub }}</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:20px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+          <div style="display:flex; flex-direction:column; border:1px solid var(--border); border-radius:15px; padding:24px; background:var(--panel); backdrop-filter:blur(10px); transition:border-color .25s, transform .25s, box-shadow .25s;" style-hover="border-color:color-mix(in srgb,var(--accent) 40%,transparent); transform:translateY(-3px); box-shadow:0 20px 50px -30px color-mix(in srgb,var(--accent) 55%,transparent);">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px;">
+              <h3 style="margin:0; font:600 17px/1.3 Inter,sans-serif; color:var(--text);">{{ p.name }}</h3>
+              <span style="flex:none; display:inline-flex; align-items:center; gap:6px; padding:4px 9px; border-radius:100px; font:600 10.5px/1 'JetBrains Mono',monospace; color:{{ p.statusColor }}; background:{{ p.statusBg }}; border:1px solid {{ p.statusBorder }};"><span style="width:6px;height:6px;border-radius:50%;background:{{ p.statusColor }};"></span>{{ p.statusLabel }}</span>
+            </div>
+            <p style="margin:0 0 18px; font:400 14px/1.6 Inter,sans-serif; color:var(--text2); flex:1;">{{ p.description }}</p>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
+              <sc-for list="{{ p.stack }}" as="tech" hint-placeholder-count="4">
+                <span style="padding:3px 8px; border:1px solid var(--border); border-radius:5px; font:500 11px/1.3 'JetBrains Mono',monospace; color:var(--text3); background:color-mix(in srgb,var(--bg3) 50%,transparent);">{{ tech }}</span>
+              </sc-for>
+            </div>
+            <sc-if value="{{ p.hasUrl }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ p.url }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:7px; font:600 12.5px/1 'JetBrains Mono',monospace; color:var(--accent); text-decoration:none;">→ {{ t.liveDemo }}</a>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" style="padding:90px 0 40px; border-top:1px solid var(--border);">
+      <div style="max-width:620px; margin:0 auto;">
+        <div style="text-align:center; margin-bottom:36px;">
+          <div style="font:600 13px/1 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:12px;">$ ./open-contact</div>
+          <h2 style="margin:0; font:700 clamp(30px,4vw,44px)/1.05 'Space Grotesk',sans-serif; letter-spacing:-.02em; color:var(--text);">{{ t.contactTitle }}</h2>
+          <p style="margin:12px auto 0; font:400 15px/1.6 Inter,sans-serif; color:var(--text2); max-width:46ch;">{{ t.contactSub }}</p>
+        </div>
+        <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:34px;">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="5">
+            <a href="{{ s.href }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; padding:10px 15px; border:1px solid var(--border); border-radius:9px; text-decoration:none; font:500 13px/1 'JetBrains Mono',monospace; color:var(--text2); background:color-mix(in srgb,var(--bg2) 45%,transparent); transition:border-color .2s, color .2s;" style-hover="border-color:color-mix(in srgb,var(--accent) 45%,transparent); color:var(--text);">{{ s.label }}</a>
+          </sc-for>
+        </div>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); background:color-mix(in srgb,var(--accent) 7%,transparent); border-radius:14px; padding:36px; text-align:center;">
+            <div style="font:700 30px/1 'JetBrains Mono',monospace; color:var(--accent);">✓</div>
+            <p style="margin:14px 0 0; font:600 16px/1.4 Inter,sans-serif; color:var(--accent);">{{ t.sentTitle }}</p>
+            <p style="margin:6px 0 0; font:400 14px/1.5 Inter,sans-serif; color:var(--text2);">{{ t.sentSub }}</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onContactSubmit }}" style="border:1px solid var(--border); border-radius:16px; padding:26px; background:var(--panel); backdrop-filter:blur(10px);">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <label style="display:block;"><span style="display:block; font:500 12px/1 'JetBrains Mono',monospace; color:var(--text2); margin-bottom:7px;"><span style="color:var(--accent);">$</span> {{ t.fName }}</span><input name="name" required minlength="2" placeholder="{{ t.phName }}" style="{{ fieldStyle }}" /></label>
+              <label style="display:block;"><span style="display:block; font:500 12px/1 'JetBrains Mono',monospace; color:var(--text2); margin-bottom:7px;"><span style="color:var(--accent);">$</span> {{ t.fEmail }}</span><input name="email" type="email" required placeholder="you@email.com" style="{{ fieldStyle }}" /></label>
+            </div>
+            <label style="display:block; margin-top:16px;"><span style="display:block; font:500 12px/1 'JetBrains Mono',monospace; color:var(--text2); margin-bottom:7px;"><span style="color:var(--accent);">$</span> {{ t.fSubject }}</span><input name="subject" placeholder="{{ t.phSubject }}" style="{{ fieldStyle }}" /></label>
+            <label style="display:block; margin-top:16px;"><span style="display:block; font:500 12px/1 'JetBrains Mono',monospace; color:var(--text2); margin-bottom:7px;"><span style="color:var(--accent);">$</span> {{ t.fMessage }}</span><textarea name="message" required minlength="10" rows="4" placeholder="{{ t.phMessage }}" style="{{ fieldStyle }} resize:vertical;"></textarea></label>
+            <button type="submit" disabled="{{ sending }}" style="width:100%; margin-top:20px; padding:14px; border:none; border-radius:10px; background:linear-gradient(100deg,var(--accent),var(--accent2)); color:#04120c; font:700 14px/1 Inter,sans-serif; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px;">{{ sendLabel }}</button>
+            <sc-if value="{{ contactErr }}" hint-placeholder-val="{{ false }}"><p style="margin:12px 0 0; text-align:center; font:500 12.5px/1.4 'JetBrains Mono',monospace; color:#ff6b6b;">! {{ contactErr }}</p></sc-if>
+          </form>
+        </sc-if>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="padding:30px 0 44px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div style="font:500 12px/1.5 'JetBrains Mono',monospace; color:var(--text3);"><span style="color:var(--accent);">&gt;_</span> Daniel Meza · {{ t.footer }}</div>
+      <div style="font:500 12px/1 'JetBrains Mono',monospace; color:var(--text3);">© 2026 · Toluca, MX</div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = {
+    theme: 'C', lang: 'es',
+    bootText: '', bootDone: false,
+    history: [], input: '',
+    filter: 'all', showAllBadges: false,
+    contactStatus: 'idle', contactErr: ''
+  };
+
+  THEMES = {
+    C: { '--bg':'#06070b','--bg2':'#0f1017','--bg3':'#171a24','--panel':'rgba(22,20,26,.55)','--text':'#eff1f6','--text2':'#9aa0b3','--text3':'#5d6376','--border':'#212430','--border2':'#2e3242','--accent':'#ff3b52','--accent2':'#2f7bff','--glowA':'#7a1226','--glowB':'#123a7c' },
+    D: { '--bg':'#020604','--bg2':'#061109','--bg3':'#0a1a10','--panel':'rgba(6,20,12,.6)','--text':'#e6f7ea','--text2':'#7fae90','--text3':'#4a6b56','--border':'#13361f','--border2':'#1c4a2c','--accent':'#33ff77','--accent2':'#ffb000','--glowA':'#0c6b38','--glowB':'#3d2e00' }
+  };
+
+  BOOT = [
+    { p:'$ ', t:'ssh daniel@portfolio' },
+    { p:'', t:'Authenticating\u2026 \u2713  session established', dim:true },
+    { p:'$ ', t:'whoami' },
+    { p:'', t:'daniel_meza \u00b7 Cloud \u00b7 DevOps \u00b7 Security' },
+    { p:'$ ', t:'cat focus.txt' },
+    { p:'', t:'operar \u00b7 automatizar \u00b7 asegurar sistemas reales', dim:true }
+  ];
+
+  SKILLS = [
+    { code:'SEC', name:'Cybersecurity \u00b7 Blue Team', level:4, technologies:['CIA Triad','Hardening','Network Security','Access Control','Segmentation','Firewalls','Threat Detection','Incident Response','Check Point'], certifications:['Ethical Hacker','Cybersecurity Defense Analyst','Cybersecurity Essentials'] },
+    { code:'API', name:'Automation \u00b7 DevNet', level:4, technologies:['REST APIs','JSON','Python','Git','CI/CD','Infrastructure APIs','Meraki API','GitHub Actions','Cloudflare Workers'], certifications:['DevNet Associate'] },
+    { code:'CLD', name:'Cloud & AI Foundations', level:3, technologies:['AWS','VPC','IAM','Lambda','CloudWatch','Edge Serverless','AI Fundamentals','IBM SkillsBuild','Responsible AI'], certifications:['AWS Cloud Practitioner','AI Fundamentals','IBM SkillsBuild'] },
+    { code:'OBS', name:'Observability \u00b7 NOC', level:4, technologies:['Zabbix','CloudWatch','Metrics','Logs','Alerting','Dashboards','Availability','Capacity Signals','Operational Evidence'], certifications:['Network Support and Security','DevNet Associate'] },
+    { code:'NET', name:'Network Engineering \u00b7 Cisco', level:5, technologies:['CCNA SRWE','Switching','Routing','VLANs','Trunks','Inter-VLAN','Wireless LAN','STP/RSTP','LAN/WAN'], certifications:['CCNA SRWE','Networking Basics','Network Devices'] },
+    { code:'OPS', name:'Network Operations \u00b7 Support', level:5, technologies:['Troubleshooting L2/L3','Cisco IOS','IP Addressing','DNS/DHCP','Meraki','Ruijie','Documentation','Escalation','Incident Closure'], certifications:['Network Technician','Network Support and Security','Basic Troubleshooting'] },
+    { code:'SYS', name:'Systems Administration \u00b7 Linux', level:4, technologies:['Linux Essentials','Shell','Users & Permissions','File Systems','Services','Windows Server','Active Directory','Hyper-V','VMware'], certifications:['NDG Linux Essentials'] }
+  ];
+
+  CERTS = [
+    { name:'Ethical Hacker', issuer:'Cisco', year:'2026', imageUrl:'https://images.credly.com/images/242902b5-f527-42ad-865e-977c9e1b5b58/image.png', url:'https://www.credly.com/badges/57488470-e0df-4351-96eb-a2f2553b4958/public_url', featured:true },
+    { name:'AWS Certified Cloud Practitioner', issuer:'AWS', year:'2025', imageUrl:'https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png', url:'https://www.credly.com/badges/0d4e8228-1d82-4e8a-a3c8-d37ea0092a49/public_url', featured:true },
+    { name:'CCNA: Switching, Routing & Wireless Essentials', issuer:'Cisco', year:'2021', imageUrl:'https://images.credly.com/images/f4ccdba9-dd65-4349-baad-8f05df116443/CCNASRWE__1_.png', url:'https://www.credly.com/badges/35a0922d-aedd-4cad-9ef8-fdeb42f94368/public_url', featured:true },
+    { name:'DevNet Associate', issuer:'Cisco', year:'2022', imageUrl:'https://images.credly.com/images/35985f2b-38d6-4b6f-8e63-42b17d3b5c69/DEVASC_Learning_Badge.png', url:'https://www.credly.com/badges/f4ddeff4-a98d-4952-b484-1b5a27cf0f6f/public_url', featured:true },
+    { name:'Artificial Intelligence Fundamentals', issuer:'IBM SkillsBuild', year:'2026', imageUrl:'https://images.credly.com/images/82b908e1-fdcd-4785-9d32-97f11ccbcf08/image.png', url:'https://www.credly.com/badges/2ad854af-f130-42d7-9f61-e90a05e3ffac/public_url', featured:true },
+    { name:'Cybersecurity Defense Analyst Career Path', issuer:'Cisco', year:'2026', imageUrl:'https://images.credly.com/images/a8d6cb9c-e0e3-4705-aab0-160cc9d10a11/blob', url:'https://www.credly.com/badges/513b87c3-d080-4ee2-8a7b-e6cfa74a5665/public_url', featured:true },
+    { name:'AI Fundamentals with IBM SkillsBuild', issuer:'Cisco', year:'2026', imageUrl:'https://images.credly.com/images/26c21273-c0ab-485b-98a7-f1212dcb82b8/image.png', url:'https://www.credly.com/badges/3cc2959f-bbd5-48b0-9978-c7da7e0bf7f3/public_url', featured:false },
+    { name:'Cyber Threat Management', issuer:'Cisco', year:'2026', imageUrl:'https://images.credly.com/images/5d5ac32b-d239-42b8-9665-8a921dc3ab47/image.png', url:'https://www.credly.com/badges/9108567a-2c35-467d-aa8b-e79c25efd9a7/public_url', featured:false },
+    { name:'ISC2 Candidate', issuer:'ISC2', year:'2025', imageUrl:'https://images.credly.com/images/9180921d-4a13-429e-9357-6f9706a554f0/image.png', url:'https://www.credly.com/badges/2654b050-1a9c-4abf-ad25-9b57fb8a08b0/public_url', featured:false },
+    { name:'Networking Basics', issuer:'Cisco', year:'2024', imageUrl:'https://images.credly.com/images/5bdd6a39-3e03-4444-9510-ecff80c9ce79/image.png', url:'https://www.credly.com/badges/47ee4164-bdc5-4c19-a884-f6ef0d015b82/public_url', featured:false },
+    { name:'Network Technician Career Path', issuer:'Cisco', year:'2024', imageUrl:'https://images.credly.com/images/978f88dc-c247-4093-9d39-6efac3651297/image.png', url:'https://www.credly.com/badges/7db0fe8a-ab73-4377-872f-151f74c54471/public_url', featured:false },
+    { name:'Network Support and Security', issuer:'Cisco', year:'2024', imageUrl:'https://images.credly.com/images/a4dd891f-7bf5-4938-8241-50dc81e8cc00/image.png', url:'https://www.credly.com/badges/cc550c70-7541-4dec-943f-b40aef0679b3/public_url', featured:false },
+    { name:'Network Addressing & Basic Troubleshooting', issuer:'Cisco', year:'2024', imageUrl:'https://images.credly.com/images/49c099bd-8542-4f48-8c03-f21799dcaf51/image.png', url:'https://www.credly.com/badges/977c80bc-2b2c-4e6d-845e-061c33fc9d36/public_url', featured:false },
+    { name:'Networking Devices & Initial Configuration', issuer:'Cisco', year:'2024', imageUrl:'https://images.credly.com/images/88316fe8-5651-4e61-a6be-5be1558f049e/image.png', url:'https://www.credly.com/badges/cca5b873-03d6-4b45-83f8-ea07b59144a2/public_url', featured:false },
+    { name:'Cybersecurity Essentials', issuer:'Cisco', year:'2022', imageUrl:'https://images.credly.com/images/054913b2-e271-49a2-a1a4-9bf1c1f9a404/CyberEssentials.png', url:'https://www.credly.com/badges/388c67d7-eba4-4996-9981-2e0af909d9c3/public_url', featured:false },
+    { name:'Networking Academy Learn-A-Thon 2023', issuer:'Cisco', year:'2023', imageUrl:'https://images.credly.com/images/b1395248-483c-48cd-b40d-7fe93837c37d/image.png', url:'https://www.credly.com/badges/06397685-f32a-47bf-ac3f-747523fc90e3/public_url', featured:false }
+  ];
+
+  EXP = [
+    { period:{es:'Sep 2025 \u2014 Presente',en:'Sep 2025 \u2014 Present'}, title:{es:'AWS Cloud Engineer / DevOps',en:'AWS Cloud Engineer / DevOps'}, company:'Advek S.A. de C.V.', type:'work', current:true, description:{es:'Arquitectura cloud en AWS, automatizaci\u00f3n de infraestructura, CI/CD, monitoreo y optimizaci\u00f3n de recursos. Dise\u00f1o de soluciones resilientes y escalables alineadas al Well-Architected Framework.',en:'AWS cloud architecture, infrastructure automation, CI/CD, monitoring and resource optimization. Resilient, scalable solutions aligned to the Well-Architected Framework.'} },
+    { period:{es:'Jun 2023 \u2014 Oct 2025',en:'Jun 2023 \u2014 Oct 2025'}, title:{es:'Ejecutivo de Administraci\u00f3n de Sistemas',en:'Systems Administration Lead'}, company:'Nutriwell S.A. de C.V.', type:'work', description:{es:'Administraci\u00f3n de infraestructura TI, redes corporativas, ciberseguridad, monitoreo con Zabbix, hardening de sistemas y gesti\u00f3n de disponibilidad (99.9%).',en:'IT infrastructure administration, corporate networks, cybersecurity, Zabbix monitoring, systems hardening and availability management (99.9%).'} },
+    { period:{es:'Sep 2015 \u2014 Nov 2017',en:'Sep 2015 \u2014 Nov 2017'}, title:{es:'Auxiliar de TI',en:'IT Support Technician'}, company:'Dicex S.A. de C.V.', type:'work', description:{es:'Soporte t\u00e9cnico, mantenimiento de infraestructura, redes LAN/WAN y atenci\u00f3n a usuarios.',en:'Technical support, infrastructure maintenance, LAN/WAN networks and end-user support.'} },
+    { period:{es:'2019',en:'2019'}, title:{es:'CCNA \u2014 Cisco Certified',en:'CCNA \u2014 Cisco Certified'}, company:'Cisco Networking Academy', type:'education', description:{es:'Certificaci\u00f3n CCNA en rutas, switches, redes empresariales y resoluci\u00f3n de problemas de red.',en:'CCNA certification in routing, switching, enterprise networks and network troubleshooting.'} },
+    { period:{es:'2014 \u2014 2018',en:'2014 \u2014 2018'}, title:{es:'Ingenier\u00eda en TI',en:'B.Sc. Information Technology'}, company:'Instituto Tecnol\u00f3gico de Toluca', type:'education', description:{es:'Formaci\u00f3n en tecnolog\u00edas de la informaci\u00f3n, redes, programaci\u00f3n y administraci\u00f3n de sistemas.',en:'Education in information technology, networking, programming and systems administration.'} }
+  ];
+
+  PROJECTS = [
+    { name:{es:'ISHO \u2014 Status Hogare\u00f1o',en:'ISHO \u2014 Home Status'}, status:'production', stack:['Cloudflare Workers','TypeScript','MS Graph API','Telegram Bot','PWA'], description:{es:'Indicador de disponibilidad familiar en tiempo real. Cruza presencia de Microsoft Teams + calendario Outlook v\u00eda Cloudflare Workers.',en:'Real-time family availability indicator. Combines Microsoft Teams presence + Outlook calendar via Cloudflare Workers.'} },
+    { name:{es:'PassForGrowth',en:'PassForGrowth'}, status:'production', stack:['React','Hono.js','Neon PostgreSQL','Drizzle ORM','WebAuthn'], description:{es:'Gestor de contrase\u00f1as zero-knowledge para adultos mayores. Cifrado E2E, WebAuthn (Passkeys), Telegram 2FA.',en:'Zero-knowledge password manager for older adults. E2E encryption, WebAuthn (Passkeys), Telegram 2FA.'} },
+    { name:{es:'vault-agent',en:'vault-agent'}, status:'development', stack:['Cloudflare Workers','OpenAI API','GitHub API','Telegram Bot','TypeScript'], description:{es:'Agente de conocimiento personal v\u00eda Telegram. Consulta el vault de Obsidian con IA, captura ideas y genera proyectos.',en:'Personal knowledge agent via Telegram. Queries your Obsidian vault with AI, captures ideas and spins up projects.'} },
+    { name:{es:'Dashboard NOC',en:'NOC Dashboard'}, status:'designed', stack:['React','TypeScript','Meraki API','Zabbix API','Cloudflare D1'], description:{es:'Panel de control unificado para infraestructura TI. Monitoreo centralizado con Meraki, Zabbix y Check Point.',en:'Unified control panel for IT infrastructure. Centralized monitoring with Meraki, Zabbix and Check Point.'} },
+    { name:{es:'WMS con IA',en:'AI-powered WMS'}, status:'development', stack:['AWS Lambda','Bedrock','React','DynamoDB','API Gateway'], description:{es:'Sistema de gesti\u00f3n de almac\u00e9n con inteligencia artificial para predicci\u00f3n y optimizaci\u00f3n de inventario.',en:'Warehouse management system with AI for inventory prediction and optimization.'} },
+    { name:{es:'PWA de Empleo',en:'Job-search PWA'}, status:'production', stack:['React','Vite','TypeScript','Cloudflare Pages','PWA'], url:'https://pwa-de-empleo-con-worker-de.pages.dev', description:{es:'Aplicaci\u00f3n PWA para b\u00fasqueda de empleo con filtros inteligentes, desplegada en Cloudflare Pages.',en:'Job-search PWA with smart filters, deployed on Cloudflare Pages.'} }
+  ];
+
+  SOCIALS = [
+    { label:'GitHub', href:'https://github.com/ElDany98' },
+    { label:'LinkedIn', href:'https://linkedin.com/in/danielmeza' },
+    { label:'Hack The Box', href:'https://app.hackthebox.com/profile' },
+    { label:'Credly', href:'https://credly.com/users/eldany_dev' },
+    { label:'Email', href:'mailto:daniel@eldanymind.dev' },
+    { label:'Telegram', href:'https://t.me/eldany98' }
+  ];
+
+  STATUS_MAP = {
+    production: { color:'var(--accent)', label:{es:'Producci\u00f3n',en:'Production'} },
+    development: { color:'#f5a623', label:{es:'En desarrollo',en:'In progress'} },
+    designed: { color:'var(--accent2)', label:{es:'Dise\u00f1ado',en:'Designed'} },
+    idea: { color:'var(--text3)', label:{es:'Idea',en:'Idea'} }
+  };
+
+  T = {
+    es: {
+      nav:{skills:'Skills',badges:'Badges',experience:'Experiencia',projects:'Proyectos',contact:'Contacto'},
+      avail:'Disponible para roles Cloud \u00b7 DevOps \u00b7 Security',
+      role:'Ingeniero de infraestructura que desarrolla software para operar, automatizar y asegurar sistemas reales.',
+      roleShort:'Cloud \u00b7 DevOps \u00b7 Security',
+      lede:'Combino redes Cisco, ciberseguridad Blue Team, Linux, AWS y observabilidad con desarrollo de APIs para convertir la operaci\u00f3n t\u00e9cnica en plataformas medibles.',
+      termHint:'escribe help y presiona enter',
+      cvDownload:'Descargar CV', cvView:'Ver / Imprimir', navCv:'CV',
+      skillsTitle:'Competencias & Certificaciones', skillsSub:'Competencias t\u00e9cnicas agrupadas por dominio, con credenciales que respaldan cada l\u00ednea de especializaci\u00f3n. Filtra por \u00e1rea.',
+      credLabel:'CREDENCIALES', filterAll:'Todos',
+      badgesTitle:'Galer\u00eda de Badges', badgesSub:'Badges verificables que respaldan competencias en redes, ciberseguridad, cloud, automatizaci\u00f3n e IA aplicada.', verify:'Verificar', more:'Ver todas', less:'Ver menos',
+      expTitle:'Experiencia', expSub:'Trayectoria profesional en tecnolog\u00eda.', current:'actual',
+      projTitle:'Proyectos', projSub:'Sistemas reales que dise\u00f1o, construyo y opero \u2014 de edge serverless a plataformas de monitoreo con IA.', liveDemo:'ver demo',
+      contactTitle:'Contacto', contactSub:'Abierto a oportunidades, colaboraciones y consultor\u00eda. Escribe y respondo pronto.',
+      fName:'nombre', fEmail:'email', fSubject:'asunto', fMessage:'mensaje', phName:'Tu nombre', phSubject:'Opcional', phMessage:'Tu mensaje (m\u00edn. 10 caracteres)',
+      send:'Enviar mensaje', sending:'Enviando\u2026', sentTitle:'Mensaje enviado correctamente', sentSub:'Te responder\u00e9 a la brevedad.',
+      footer:'operar \u00b7 automatizar \u00b7 asegurar'
+    },
+    en: {
+      nav:{skills:'Skills',badges:'Badges',experience:'Experience',projects:'Projects',contact:'Contact'},
+      avail:'Available for Cloud \u00b7 DevOps \u00b7 Security roles',
+      role:'Infrastructure engineer who ships software to run, automate and secure real-world systems.',
+      roleShort:'Cloud \u00b7 DevOps \u00b7 Security',
+      lede:'I blend Cisco networking, Blue Team security, Linux, AWS and observability with API development to turn technical operations into measurable platforms.',
+      termHint:'type help and hit enter',
+      cvDownload:'Download CV', cvView:'View / Print', navCv:'CV',
+      skillsTitle:'Skills & Certifications', skillsSub:'Technical skills grouped by domain, each backed by verifiable credentials. Filter by area.',
+      credLabel:'CREDENTIALS', filterAll:'All',
+      badgesTitle:'Badge Gallery', badgesSub:'Verifiable badges backing skills across networking, cybersecurity, cloud, automation and applied AI.', verify:'Verify', more:'Show all', less:'Show less',
+      expTitle:'Experience', expSub:'Professional journey in technology.', current:'current',
+      projTitle:'Projects', projSub:'Real systems I design, build and operate \u2014 from edge serverless to AI-powered monitoring platforms.', liveDemo:'live demo',
+      contactTitle:'Contact', contactSub:'Open to opportunities, collaborations and consulting. Drop a line and I\u2019ll reply soon.',
+      fName:'name', fEmail:'email', fSubject:'subject', fMessage:'message', phName:'Your name', phSubject:'Optional', phMessage:'Your message (min. 10 chars)',
+      send:'Send message', sending:'Sending\u2026', sentTitle:'Message sent successfully', sentSub:'I\u2019ll get back to you shortly.',
+      footer:'run \u00b7 automate \u00b7 secure'
+    }
+  };
+
+  API_URL = 'https://portfolio-contact-api.danielmeza127.workers.dev/api/contact';
+  FIELD = "width:100%; padding:11px 13px; border:1px solid var(--border2); border-radius:9px; background:color-mix(in srgb,var(--bg) 55%,transparent); color:var(--text); font:400 14px/1.4 Inter,sans-serif; transition:border-color .2s;";
+
+  componentDidMount() { this.applyTheme(); this.typeBoot(); this.initMesh(); }
+  componentWillUnmount() { clearTimeout(this._t); cancelAnimationFrame(this._raf); if (this._onResize) window.removeEventListener('resize', this._onResize); }
+
+  bgCanvasRef = (el) => { this._canvas = el; };
+  hexToRgb(hex) { hex = (hex||'').trim().replace('#',''); if (hex.length === 3) hex = hex.split('').map(c=>c+c).join(''); const n = parseInt(hex||'ff3b52',16); return [(n>>16)&255,(n>>8)&255,n&255].join(','); }
+  updateMeshColors() { if (!this.rootEl) return; const cs = getComputedStyle(this.rootEl); this.meshA = this.hexToRgb(cs.getPropertyValue('--accent') || '#ff3b52'); this.meshB = this.hexToRgb(cs.getPropertyValue('--accent2') || '#2f7bff'); }
+
+  initMesh() {
+    const canvas = this._canvas; if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w = 0, h = 0;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize(); this._onResize = resize; window.addEventListener('resize', resize);
+    const count = Math.max(28, Math.min(64, Math.round(w * h / 26000)));
+    this._nodes = Array.from({ length: count }, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-.5)*0.22, vy: (Math.random()-.5)*0.22,
+      c: Math.random() < 0.5 ? 0 : 1, r: Math.random()*1.6 + 1
+    }));
+    this._packets = []; this._lastPacket = 0;
+    this.updateMeshColors();
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const maxD = 158;
+    const draw = (ts) => {
+      const nodes = this._nodes; const A = this.meshA, B = this.meshB;
+      ctx.clearRect(0, 0, w, h);
+      for (const n of nodes) { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > w) n.vx *= -1; if (n.y < 0 || n.y > h) n.vy *= -1; }
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i+1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j]; const dx = a.x-b.x, dy = a.y-b.y; const d = Math.hypot(dx, dy);
+          if (d < maxD) { const al = (1 - d/maxD) * 0.15; ctx.strokeStyle = 'rgba(' + (a.c ? B : A) + ',' + al + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+        }
+      }
+      for (const n of nodes) { ctx.fillStyle = 'rgba(' + (n.c ? B : A) + ',0.5)'; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, 6.29); ctx.fill(); }
+      if (!reduced && ts - this._lastPacket > 480 && this._packets.length < 12) {
+        this._lastPacket = ts; const a = nodes[(Math.random()*nodes.length)|0]; let best = null, bd = maxD;
+        for (const b of nodes) { if (b === a) continue; const d = Math.hypot(a.x-b.x, a.y-b.y); if (d < bd) { bd = d; best = b; } }
+        if (best) this._packets.push({ a, b: best, t: 0, sp: 0.011 + Math.random()*0.009, c: a.c });
+      }
+      for (let k = this._packets.length-1; k >= 0; k--) {
+        const p = this._packets[k]; p.t += p.sp; if (p.t >= 1) { this._packets.splice(k, 1); continue; }
+        const x = p.a.x + (p.b.x-p.a.x)*p.t, y = p.a.y + (p.b.y-p.a.y)*p.t; const col = p.c ? B : A;
+        ctx.save(); ctx.shadowBlur = 8; ctx.shadowColor = 'rgba(' + col + ',0.9)'; ctx.fillStyle = 'rgba(' + col + ',0.95)';
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, 6.29); ctx.fill(); ctx.restore();
+      }
+      if (!reduced) this._raf = requestAnimationFrame(draw);
+    };
+    draw(0);
+  }
+
+  applyTheme() {
+    const v = this.THEMES[this.state.theme];
+    if (this.rootEl) { for (const k in v) this.rootEl.style.setProperty(k, v[k]); }
+    if (typeof document !== 'undefined') document.body.style.background = v['--bg'];
+    this.updateMeshColors();
+  }
+
+  typeBoot() {
+    const full = this.BOOT.map(l => l.p + l.t).join('\n');
+    let i = 0;
+    const step = () => {
+      i++;
+      const ch = full[i - 1];
+      const speed = ch === '\n' ? 90 : (Math.random() * 14 + 8);
+      this.setState({ bootText: full.slice(0, i) });
+      if (i < full.length) { this._t = setTimeout(step, speed); }
+      else { this._t = setTimeout(() => { this.setState({ bootDone: true }, () => this.focusInput()); }, 250); }
+    };
+    this._t = setTimeout(step, 350);
+  }
+
+  rootRef = (el) => { this.rootEl = el; if (el) this.applyTheme(); };
+  inputRef = (el) => { this._input = el; };
+  focusInput = () => { if (this._input) this._input.focus(); };
+
+  setTheme(theme) { this.setState({ theme }, () => this.applyTheme()); }
+  toggleLang = () => this.setState(s => ({ lang: s.lang === 'es' ? 'en' : 'es' }));
+
+  scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 66, behavior: 'smooth' });
+  }
+
+  onInput = (e) => this.setState({ input: e.target.value });
+  onSubmit = (e) => {
+    e.preventDefault();
+    const raw = this.state.input.trim();
+    this.setState({ input: '' });
+    if (!raw) return;
+    this.runCommand(raw);
+  };
+
+  push(items) { this.setState(s => ({ history: [...s.history, ...items] })); }
+
+  runCommand(raw) {
+    const lang = this.state.lang;
+    const parts = raw.toLowerCase().split(/\s+/);
+    const c = parts[0], arg = parts[1];
+    const out = [{ type:'in', text: raw }];
+    const say = (t) => out.push({ type:'out', text: t });
+    const sys = (t) => out.push({ type:'sys', text: t });
+    switch (c) {
+      case 'help':
+        sys(lang==='es' ? 'comandos disponibles:' : 'available commands:');
+        say('help  whoami  skills [SEC|CLD|NET\u2026]  badges  experience  projects  contact  theme  lang  clear');
+        break;
+      case 'whoami':
+        say('Daniel Meza \u2014 Cloud DevOps \u00b7 Cybersecurity \u00b7 Network Automation');
+        say(lang==='es' ? '7+ a\u00f1os en TI \u00b7 16 badges verificables \u00b7 Toluca, MX' : '7+ years in IT \u00b7 16 verifiable badges \u00b7 Toluca, MX');
+        break;
+      case 'ls': case 'sections':
+        say('skills/  badges/  experience/  projects/  contact/'); break;
+      case 'skills': {
+        const codes = this.SKILLS.map(s => s.code.toLowerCase());
+        if (arg && codes.includes(arg)) { this.setState({ filter: arg.toUpperCase() }); sys((lang==='es'?'filtrando skills \u2192 ':'filtering skills \u2192 ') + arg.toUpperCase()); }
+        else { this.setState({ filter: 'all' }); sys(lang==='es' ? 'abriendo skills\u2026' : 'opening skills\u2026'); }
+        this.scrollTo('skills'); break;
+      }
+      case 'badges': case 'certs': sys(lang==='es'?'abriendo badges\u2026':'opening badges\u2026'); this.scrollTo('badges'); break;
+      case 'experience': case 'exp': sys(lang==='es'?'abriendo experiencia\u2026':'opening experience\u2026'); this.scrollTo('experience'); break;
+      case 'projects': case 'proyectos': sys(lang==='es'?'abriendo proyectos\u2026':'opening projects\u2026'); this.scrollTo('projects'); break;
+      case 'contact': case 'hire': sys(lang==='es'?'abriendo canal de contacto\u2026':'opening contact channel\u2026'); this.scrollTo('contact'); break;
+      case 'sudo':
+        if ((parts[1]||'') === 'hire-me') { say(lang==='es'?'\u2713 excelente decisi\u00f3n. redirigiendo a contacto\u2026':'\u2713 great choice. redirecting to contact\u2026'); this.scrollTo('contact'); }
+        else say(lang==='es'?'uso: sudo hire-me':'usage: sudo hire-me');
+        break;
+      case 'theme': { const order=['C','D']; const nt=order[(order.indexOf(this.state.theme)+1)%2]; this.setTheme(nt); sys('theme \u2192 ' + ({C:'red/blue team',D:'classic terminal'})[nt]); break; }
+      case 'lang': this.toggleLang(); sys('lang \u2192 ' + (lang==='es'?'en':'es')); break;
+      case 'clear': this.setState({ history: [] }); return;
+      default: say('zsh: command not found: ' + c + (lang==='es'?" \u2014 escribe 'help'":" \u2014 type 'help'"));
+    }
+    this.push(out);
+  }
+
+  setFilter = (key) => this.setState({ filter: key });
+  toggleBadges = () => this.setState(s => ({ showAllBadges: !s.showAllBadges }));
+
+  onContactSubmit = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const payload = { name: fd.get('name'), email: fd.get('email'), subject: fd.get('subject'), message: fd.get('message') };
+    this.setState({ contactStatus: 'sending', contactErr: '' });
+    try {
+      const res = await fetch(this.API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      if (!res.ok) { const d = await res.json().catch(()=>({})); throw new Error(d.error || 'Error'); }
+      this.setState({ contactStatus: 'sent' });
+    } catch (err) {
+      this.setState({ contactStatus: 'error', contactErr: (this.state.lang==='es'?'No se pudo enviar. Usa el email o Telegram.':'Could not send. Use email or Telegram.') });
+    }
+  };
+
+  renderVals() {
+    const { theme, lang, filter, showAllBadges, contactStatus, contactErr } = this.state;
+    const t = this.T[lang];
+
+    const bootLines = this.state.bootText.split('\n').map(line => {
+      const isCmd = line.startsWith('$ ');
+      return { prefix: isCmd ? '$ ' : '', text: isCmd ? line.slice(2) : line, style: isCmd ? 'color:var(--text);' : 'color:var(--text2);' };
+    });
+
+    const history = this.state.history.map(h => ({
+      prefix: h.type === 'in' ? '$ ' : '',
+      text: h.text,
+      style: h.type === 'in' ? 'color:var(--text);' : (h.type === 'sys' ? 'color:var(--accent2);' : 'color:var(--text2);'),
+      wrap: 'margin-top:2px;'
+    }));
+
+    const navItems = [
+      { href:'#skills', label:t.nav.skills }, { href:'#badges', label:t.nav.badges },
+      { href:'#experience', label:t.nav.experience }, { href:'#projects', label:t.nav.projects },
+      { href:'#contact', label:t.nav.contact }
+    ];
+
+    const stats = [
+      { v:'7+', label: lang==='es'?'a\u00f1os en TI':'years in IT' },
+      { v:'16', label: lang==='es'?'badges verificables':'verifiable badges' },
+      { v:'99.9%', label: lang==='es'?'foco en uptime':'uptime focus' },
+      { v:'7', label: lang==='es'?'dominios t\u00e9cnicos':'technical domains' }
+    ];
+
+    const btnBase = "padding:8px 13px; border-radius:8px; font:600 12px/1 'JetBrains Mono',monospace; cursor:pointer; transition:all .2s; border:1px solid var(--border2);";
+    const filters = [{ key:'all', code:'*', label:t.filterAll }, ...this.SKILLS.map(s => ({ key:s.code, code:s.code, label:s.name.split(' \u00b7 ')[0] }))].map(f => {
+      const active = filter === f.key;
+      return { ...f, onClick: () => this.setFilter(f.key),
+        style: btnBase + (active ? 'background:color-mix(in srgb,var(--accent) 14%,transparent); border-color:color-mix(in srgb,var(--accent) 50%,transparent); color:var(--accent);' : 'background:color-mix(in srgb,var(--bg2) 55%,transparent); color:var(--text2);') };
+    });
+
+    const skills = this.SKILLS.filter(s => filter === 'all' || s.code === filter).map(s => ({
+      code:s.code, name:s.name, technologies:s.technologies, certifications:s.certifications, levelPct: (s.level/5*100) + '%'
+    }));
+
+    const featured = this.CERTS.filter(c => c.featured);
+    const certsVisible = showAllBadges ? this.CERTS : featured;
+    const badgesBtnLabel = showAllBadges ? ('\u2303 ' + t.less) : ('\u2304 ' + t.more + ' (' + (this.CERTS.length - featured.length) + ')');
+
+    const experiences = this.EXP.map(e => ({
+      title: e.title[lang], company: e.company, period: e.period[lang], description: e.description[lang], current: !!e.current,
+      dotColor: e.current ? 'var(--accent)' : (e.type==='education' ? 'var(--text3)' : 'var(--accent2)'),
+      dotBorder: e.current ? 'var(--accent)' : 'var(--border2)'
+    }));
+
+    const projects = this.PROJECTS.map(p => {
+      const st = this.STATUS_MAP[p.status];
+      return { name: p.name[lang], description: p.description[lang], stack: p.stack, hasUrl: !!p.url, url: p.url || '#',
+        statusLabel: st.label[lang], statusColor: st.color,
+        statusBg: 'color-mix(in srgb,' + st.color + ' 10%,transparent)', statusBorder: 'color-mix(in srgb,' + st.color + ' 35%,transparent)' };
+    });
+
+    const segBase = "padding:6px 10px; border:none; cursor:pointer; font:400 11px/1 monospace; transition:all .2s;";
+
+    return {
+      rootRef: this.rootRef, inputRef: this.inputRef, focusInput: this.focusInput, bgCanvasRef: this.bgCanvasRef,
+      theme, lang, t, navItems, stats, filters, skills, experiences, projects,
+      socials: this.SOCIALS,
+      heroSocials: this.SOCIALS.filter(s => ['GitHub','LinkedIn','Hack The Box'].includes(s.label)),
+      certsVisible, badgesBtnLabel,
+      bootLines, history, bootDone: this.state.bootDone, input: this.state.input,
+      onInput: this.onInput, onSubmit: this.onSubmit,
+      setThemeC: () => this.setTheme('C'), setThemeD: () => this.setTheme('D'),
+      themeCStyle: segBase + (theme==='C' ? 'background:linear-gradient(90deg,#ff3b52,#2f7bff); color:#fff;' : 'background:transparent; color:#ff3b52;'),
+      themeDStyle: segBase + (theme==='D' ? 'background:#33ff77; color:#021207;' : 'background:transparent; color:#33ff77;'),
+      toggleLang: this.toggleLang, langLabel: lang==='es' ? 'ES / en' : 'es / EN',
+      toggleBadges: this.toggleBadges,
+      credLabel: t.credLabel,
+      fieldStyle: this.FIELD,
+      onContactSubmit: this.onContactSubmit,
+      sent: contactStatus === 'sent', notSent: contactStatus !== 'sent',
+      sending: contactStatus === 'sending', contactErr: contactStatus === 'error' ? contactErr : '',
+      sendLabel: contactStatus === 'sending' ? t.sending : t.send
+    };
+  }
+}
+</script>
+</body>
+</html>
