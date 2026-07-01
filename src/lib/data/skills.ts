@@ -27,8 +27,8 @@ export const skillCategories: Skill[] = [
   {
     name: "Systems Administration",
     icon: "⚙️",
-    level: 4,
-    technologies: ["Linux", "Windows Server", "VMware", "Docker", "Alta Disponibilidad", "Infraestructura Crítica"],
+    level: 5,
+    technologies: ["Linux", "Windows Server", "Hyper-V", "Active Directory", "HA Failover", "VMware", "Docker"],
   },
   {
     name: "Monitoreo & Observabilidad",
