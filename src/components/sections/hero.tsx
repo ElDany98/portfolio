@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 
 const LINES = [
   { type: "prompt" as const, content: "whoami" },
-  { type: "output" as const, content: "Cloud Architect | Platform Engineer | AI Engineering" },
+  { type: "output" as const, content: "Infrastructure & Cloud Architect" },
   { type: "prompt" as const, content: "cat mission.txt" },
-  { type: "output" as const, content: "De infraestructura a IA. Construyo sistemas que" },
-  { type: "output" as const, content: "transforman incertidumbre en control." },
+  { type: "output" as const, content: "De infraestructura a IA. Diseño sistemas resilientes," },
+  { type: "output" as const, content: "seguros y alineados al negocio." },
 ];
 
 function useTypewriter() {

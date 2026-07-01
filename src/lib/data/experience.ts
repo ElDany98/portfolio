@@ -8,27 +8,27 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    period: "2019 — Presente",
-    title: "Cloud Architect / Ingeniero TI",
+    period: "Sep 2025 — Presente",
+    title: "AWS Cloud Engineer / DevOps",
     company: "Advek S.A. de C.V.",
     description:
-      "Arquitectura cloud, desarrollo full-stack, automatización, consultoría ERP (Odoo, SAP BO), infraestructura y ciberseguridad.",
+      "Arquitectura cloud en AWS, automatización de infraestructura, CI/CD, monitoreo y optimización de recursos. Diseño de soluciones resilientes y escalables alineadas al Well-Architected Framework.",
     type: "work",
   },
   {
-    period: "2022 — 2024",
-    title: "DevOps & Automatización",
-    company: "Advek S.A. de C.V.",
+    period: "Jun 2023 — Oct 2025",
+    title: "Ejecutivo de Administración de Sistemas",
+    company: "Nutriwell S.A. de C.V.",
     description:
-      "Implementación de CI/CD, pipelines de despliegue, automatización de infraestructura y migración a cloud.",
+      "Administración de infraestructura TI, redes corporativas, ciberseguridad, monitoreo con Zabbix, hardening de sistemas y gestión de disponibilidad (99.9%).",
     type: "work",
   },
   {
-    period: "2019 — 2022",
-    title: "Desarrollador Full-Stack",
-    company: "Advek S.A. de C.V.",
+    period: "Sep 2015 — Nov 2017",
+    title: "Auxiliar de TI",
+    company: "Dicex S.A. de C.V.",
     description:
-      "Sistemas de tickets, dashboards operativos, web apps internas, integración de APIs y bases de datos.",
+      "Soporte técnico, mantenimiento de infraestructura, redes LAN/WAN y atención a usuarios.",
     type: "work",
   },
   {

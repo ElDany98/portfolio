@@ -1,6 +1,6 @@
 "use client";
 
-import { GitBranch, Mail, Send, Shield } from "lucide-react";
+import { Award, GitBranch, Mail, Send, Shield } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 function LinkedInIcon({ size = 18 }: { size?: number }) {
@@ -23,6 +23,7 @@ function Spinner() {
 const socialLinks = [
   { label: "GitHub", Icon: GitBranch, href: "https://github.com/ElDany98" },
   { label: "LinkedIn", Icon: LinkedInIcon, href: "https://linkedin.com/in/danielmeza" },
+  { label: "Credly", Icon: Award, href: "https://credly.com/users/eldany_dev" },
   { label: "Email", Icon: Mail, href: "mailto:daniel@eldanymind.dev" },
   { label: "Telegram", Icon: Send, href: "https://t.me/eldany98" },
 ];

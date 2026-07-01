@@ -7,39 +7,39 @@ export interface Skill {
 
 export const skillCategories: Skill[] = [
   {
-    name: "Cloud",
+    name: "Cloud Architecture · AWS",
     icon: "☁️",
-    level: 5,
-    technologies: ["AWS", "Cloudflare Workers", "Lambda", "API Gateway", "S3", "DynamoDB", "RDS", "Bedrock"],
-  },
-  {
-    name: "Frontend",
-    icon: "⚛️",
     level: 4,
-    technologies: ["React", "TypeScript", "Next.js", "Tailwind CSS", "PWA", "shadcn/ui"],
+    technologies: ["EC2", "S3", "VPC", "IAM", "RDS", "Route 53", "CloudWatch", "ELB", "Lambda", "Bedrock"],
   },
   {
-    name: "Backend",
+    name: "Network Engineering",
+    icon: "🌐",
+    level: 5,
+    technologies: ["Cisco CCNA", "Meraki", "Ruijie", "VLANs", "BGP", "OSPF", "LAN/WAN", "Wireless", "Segmentación"],
+  },
+  {
+    name: "Ciberseguridad · Blue Team",
+    icon: "🔒",
+    level: 4,
+    technologies: ["Hardening", "Seguridad Perimetral", "Control de Acceso", "ISO 27001", "PCI DSS", "Zero Trust", "Check Point"],
+  },
+  {
+    name: "Systems Administration",
     icon: "⚙️",
     level: 4,
-    technologies: ["Node.js", "Python", ".NET / C#", "Java", "PHP", "Hono.js", "FastAPI"],
+    technologies: ["Linux", "Windows Server", "VMware", "Docker", "Alta Disponibilidad", "Infraestructura Crítica"],
   },
   {
-    name: "Redes & Seguridad",
-    icon: "🌐",
+    name: "Monitoreo & Observabilidad",
+    icon: "📡",
     level: 4,
-    technologies: ["Cisco CCNA", "Meraki", "Check Point", "Hardening", "Zero Trust", "Zabbix"],
+    technologies: ["Zabbix", "CloudWatch", "Alertamiento", "Métricas", "Dashboards", "Disponibilidad"],
   },
   {
-    name: "IA",
+    name: "Automatización Operativa",
     icon: "🤖",
     level: 3,
-    technologies: ["AWS Bedrock", "Claude API", "RAG", "Agentes IA", "Workers AI", "Vectorize"],
-  },
-  {
-    name: "DevOps",
-    icon: "🔧",
-    level: 4,
-    technologies: ["CI/CD", "GitHub Actions", "Drizzle ORM", "Neon DB", "Cloudflare Pages", "Wrangler"],
+    technologies: ["IaC", "CI/CD", "DevOps", "AWS", "Cloudflare Workers", "GitHub Actions"],
   },
 ];

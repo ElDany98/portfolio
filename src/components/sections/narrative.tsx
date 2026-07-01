@@ -1,9 +1,9 @@
 const milestones = [
-  { year: "2019", label: "Infraestructura", description: "Redes, servidores, soporte técnico" },
-  { year: "2020", label: "Desarrollo", description: "Full-stack, APIs, sistemas de tickets" },
-  { year: "2022", label: "DevOps", description: "CI/CD, automatización, IaC" },
-  { year: "2024", label: "Cloud & IA", description: "AWS, Cloudflare, agentes inteligentes" },
-  { year: "2026", label: "Carrera", description: "Certificaciones, SaaS, arquitectura cloud" },
+  { year: "2015", label: "Infraestructura", description: "Soporte TI, redes LAN/WAN, mantenimiento" },
+  { year: "2019", label: "Redes", description: "CCNA, switching, routing, certificación Cisco" },
+  { year: "2023", label: "SysAdmin & Seguridad", description: "Infraestructura crítica, hardening, monitoreo Zabbix" },
+  { year: "2025", label: "Cloud & DevOps", description: "AWS, automatización, CI/CD, arquitectura cloud" },
+  { year: "2026", label: "Arquitectura", description: "Well-Architected, seguridad, IA aplicada" },
 ];
 
 export function Narrative() {
