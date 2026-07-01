@@ -1,0 +1,9 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p out && cp index.html out/ && cp support.js out/ && cp -r assets out/ && cp \"Daniel Meza Portfolio (standalone).html\" out/ && cp \"Daniel Meza Portfolio.dc.html\" out/",
+    "dev": "npx serve ."
+  }
+}

@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -414,7 +416,7 @@ class Component extends DCLogic {
   PROJECTS = [
     { name:{es:'ISHO \u2014 Status Hogare\u00f1o',en:'ISHO \u2014 Home Status'}, status:'production', stack:['Cloudflare Workers','TypeScript','MS Graph API','Telegram Bot','PWA'], description:{es:'Indicador de disponibilidad familiar en tiempo real. Cruza presencia de Microsoft Teams + calendario Outlook v\u00eda Cloudflare Workers.',en:'Real-time family availability indicator. Combines Microsoft Teams presence + Outlook calendar via Cloudflare Workers.'} },
     { name:{es:'PassForGrowth',en:'PassForGrowth'}, status:'production', stack:['React','Hono.js','Neon PostgreSQL','Drizzle ORM','WebAuthn'], description:{es:'Gestor de contrase\u00f1as zero-knowledge para adultos mayores. Cifrado E2E, WebAuthn (Passkeys), Telegram 2FA.',en:'Zero-knowledge password manager for older adults. E2E encryption, WebAuthn (Passkeys), Telegram 2FA.'} },
-    { name:{es:'vault-agent',en:'vault-agent'}, status:'development', stack:['Cloudflare Workers','OpenAI API','GitHub API','Telegram Bot','TypeScript'], description:{es:'Agente de conocimiento personal v\u00eda Telegram. Consulta el vault de Obsidian con IA, captura ideas y genera proyectos.',en:'Personal knowledge agent via Telegram. Queries your Obsidian vault with AI, captures ideas and spins up projects.'} },
+    { name:{es:'Cat\u00e1logo Inteligente',en:'Smart Catalog'}, status:'development', stack:['React','AWS Lambda','API Gateway','Amazon Bedrock','Amazon Rekognition','RDS (PostgreSQL)','S3','CloudFront','SQS'], description:{es:'Plataforma de cat\u00e1logo inteligente para productos de empaque. Aprende de cada interacci\u00f3n para mostrar el producto perfecto. Clasificaci\u00f3n autom\u00e1tica con IA (Bedrock + Rekognition) y arquitectura serverless en AWS.',en:'AI-powered smart catalog for packaging products. Learns from every interaction to show the perfect product. Automatic AI classification (Bedrock + Rekognition), serverless on AWS.'} },
     { name:{es:'Dashboard NOC',en:'NOC Dashboard'}, status:'designed', stack:['React','TypeScript','Meraki API','Zabbix API','Cloudflare D1'], description:{es:'Panel de control unificado para infraestructura TI. Monitoreo centralizado con Meraki, Zabbix y Check Point.',en:'Unified control panel for IT infrastructure. Centralized monitoring with Meraki, Zabbix and Check Point.'} },
     { name:{es:'WMS con IA',en:'AI-powered WMS'}, status:'development', stack:['AWS Lambda','Bedrock','React','DynamoDB','API Gateway'], description:{es:'Sistema de gesti\u00f3n de almac\u00e9n con inteligencia artificial para predicci\u00f3n y optimizaci\u00f3n de inventario.',en:'Warehouse management system with AI for inventory prediction and optimization.'} },
     { name:{es:'PWA de Empleo',en:'Job-search PWA'}, status:'production', stack:['React','Vite','TypeScript','Cloudflare Pages','PWA'], url:'https://pwa-de-empleo-con-worker-de.pages.dev', description:{es:'Aplicaci\u00f3n PWA para b\u00fasqueda de empleo con filtros inteligentes, desplegada en Cloudflare Pages.',en:'Job-search PWA with smart filters, deployed on Cloudflare Pages.'} }
